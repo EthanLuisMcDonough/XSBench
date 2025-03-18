@@ -7,6 +7,7 @@ OPTIMIZE    ?= yes
 DEBUG       ?= no
 PROFILE     ?= no
 MPI         ?= no
+USE_PROF    ?= no
 
 #===============================================================================
 # Program name & source code list
@@ -78,8 +79,14 @@ endif
 
 # Profiling Flags
 ifeq ($(PROFILE),yes)
-  CFLAGS += -pg
-  LDFLAGS  += -pg
+  CFLAGS += -fcreate-profile -Xarch_device -fprofile-instr-generate -Xarch_device -fprofile-update=atomic
+  LDFLAGS  += -L/dev/shm/ethanmc/clang/install/lib -L/dev/shm/ethanmc/clang/install/lib/x86_64-unknown-linux-gnu
+endif
+
+# useprof flags
+ifeq ($(PROFILE),yes)
+  CFLAGS += -Xarch_device -fprofile-use=$(PROFDIR) -mllvm -debug-pass=Arguments
+  LDFLAGS += -L/dev/shm/ethanmc/clang/install/lib -L/dev/shm/ethanmc/clang/install/lib/x86_64-unknown-linux-gnu
 endif
 
 # Optimization Flags
