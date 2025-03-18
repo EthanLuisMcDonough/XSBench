@@ -2,7 +2,7 @@
 # User Options
 #===============================================================================
 
-COMPILER    ?= llvm
+COMPILER    ?= amd
 OPTIMIZE    ?= yes
 DEBUG       ?= no
 PROFILE     ?= no
@@ -68,7 +68,7 @@ endif
 # AOMP Targeting MI100 -- Change march to Target Other GPUs
 ifeq ($(COMPILER),amd)
   CC = clang
-  CFLAGS += -fopenmp -fopenmp-targets=amdgcn-amd-amdhsa -Xopenmp-target=amdgcn-amd-amdhsa -march=gfx908
+  CFLAGS += -fopenmp -fopenmp-targets=amdgcn-amd-amdhsa -Xopenmp-target=amdgcn-amd-amdhsa -march=gfx906
 endif
 
 # Debug Flags
